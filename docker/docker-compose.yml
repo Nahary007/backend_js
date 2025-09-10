@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: parking_postgres
+    environment:
+      POSTGRES_USER: parking
+      POSTGRES_PASSWORD: parking
+      POSTGRES_DB: parkingdb
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - parking_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: parking_keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./realms:/opt/keycloak/data/import
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - parking_network
+
+  api:
+    build:
+      context: ../api
+      dockerfile: Dockerfile
+    container_name: parking_api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - keycloak
+    restart: always
+    networks:
+      - parking_network
+
+networks:
+  parking_network:
+    driver: bridge

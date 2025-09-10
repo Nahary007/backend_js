@@ -1,0 +1,32 @@
+{
+  "realm": "parking",
+  "enabled": true,
+  "users": [
+    {
+      "username": "adminuser",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@parking.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "parking-api",
+      "secret": "my-secret",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "publicClient": false,
+      "redirectUris": ["http://localhost:3000/*"],
+      "webOrigins": ["*"]
+    }
+  ]
+}
