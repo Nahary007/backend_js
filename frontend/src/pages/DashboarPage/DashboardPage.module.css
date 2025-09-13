@@ -1,0 +1,29 @@
+.dashboardPage {
+    /* background: #000; */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.sideBarreContainer {
+    height: 100%;
+    width: 260px;
+}
+
+.layoutContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.topBarreContainer {
+    /* background: #000; */
+    height: 68px;
+}
+
+.elementContainer {
+    /* border: 1px solid black; */
+    flex: 1;
+}
