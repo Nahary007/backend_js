@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #f1f1f1;
 }
 
 .loginForm h1 {
@@ -14,7 +15,7 @@
 
 
 .loginForm form {
-    background: #d7c5c5;
+    background: var(--bg-sidebar);
     width: 360px;
     display: flex;
     flex-direction: column;
@@ -35,4 +36,5 @@
 
 .goToSignup span {
     text-decoration: underline;
+    cursor: pointer;
 }

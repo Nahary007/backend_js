@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { Parking } from "../../pages/DashboarPage/DashboardPage";
 import styles from "./Dropdown.module.css"
-import { parkings } from "../list/ListParking/ListParking";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface DropdownProps {
@@ -34,7 +33,7 @@ function Dropdown( { parkingList, getParkingSelected }: DropdownProps ) {
     return (
         <div className={styles.dropdown} onMouseLeave={() => setIsOpen(false)}>
             <button className={styles.dropdownBtn} onClick={toggleDropdown}>
-                <span>{selectedParking ? selectedParking.name : "Choisir une voiture"}</span> { !isOpen ? <ChevronDown/> : <ChevronUp/>}
+                <span>{selectedParking ? selectedParking.name : "Choisir une parking"}</span> { !isOpen ? <ChevronDown/> : <ChevronUp/>}
             </button>
 
             {

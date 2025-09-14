@@ -2,10 +2,17 @@ import styles from './LoginPage.module.css';
 import InputForm from '../../components/forms/InputForm/InputForm';
 import ButtonForm from '../../components/forms/Button/ButtonForm';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 function LoginPage() {
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const goToSignup = () => {
+    navigate("/signup");
+  }
 
   return (
     <div className={styles.loginForm}>
@@ -38,15 +45,17 @@ function LoginPage() {
         </section>
 
         <ButtonForm
+          color={"primary"}
           text={"Connexion"}
+          onClick={() => { }}
         />
 
-        <p style={{textAlign: "center"}}>- ou -</p>
+        <p style={{ textAlign: "center" }}>- ou -</p>
 
         {/* Se diriger vers la page d'inscription */}
         <section className={styles.goToSignup}>
           <p>
-            Pas encore de compte ? <span>Créer un compte</span>
+            Pas de compte ? <span onClick={goToSignup}>Inscrivez-vous</span>
           </p>
         </section>
 

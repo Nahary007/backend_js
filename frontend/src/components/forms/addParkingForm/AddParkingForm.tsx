@@ -4,13 +4,16 @@ import InputForm from '../InputForm/InputForm'
 import styles from './AddParkingForm.module.css'
 
 interface AddParkingFormProps {
-  parking: Parking;
+  parkingDataForm: Parking;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  resetParkingDataForm : () => void;
+  onSubmit : (e: React.ChangeEvent<HTMLInputElement>) => void;
+  closeForm : () => void
 }
 
-function AddParkingForm({ parking, handleChange }: AddParkingFormProps) {
+function AddParkingForm({ parkingDataForm,onSubmit, handleChange, resetParkingDataForm, closeForm }: AddParkingFormProps) {
   return (
-    <div className={styles.formContainer}>
+    <div className={styles.formContainer} onSubmit={onSubmit}>
       <form>
         <h1>Ajouter un véhicule</h1>
         <section>
@@ -19,7 +22,7 @@ function AddParkingForm({ parking, handleChange }: AddParkingFormProps) {
             placeholder="Nom du parking"
             type="text"
             name="name"
-            value={parking.name}
+            value={parkingDataForm.name}
             onChange={handleChange}
           />
         </section>
@@ -30,7 +33,7 @@ function AddParkingForm({ parking, handleChange }: AddParkingFormProps) {
             placeholder="Sa location"
             type="text"
             name="location"
-            value={parking.location}
+            value={parkingDataForm.location}
             onChange={handleChange}
           />
         </section>
@@ -41,14 +44,27 @@ function AddParkingForm({ parking, handleChange }: AddParkingFormProps) {
             placeholder="Capacite"
             type="number"
             name="capacity"
-            value={parking.capacity}
+            value={parkingDataForm.capacity}
             onChange={handleChange}
           />
         </section>
 
         <section className={styles.listBtn}>
-          <ButtonForm text={"Ajouter"}></ButtonForm>
-          <ButtonForm text={"Annuler"}></ButtonForm>
+          <ButtonForm 
+            text={"Ajouter"} 
+            color={"primary"} 
+          ></ButtonForm>
+          <ButtonForm 
+            text={"Annuler"} 
+            color={"gray"} 
+            type='button'
+            onClick={
+              () => {
+                resetParkingDataForm();
+                closeForm();
+              }
+            }
+          ></ButtonForm>
         </section>
       </form>
     </div>

@@ -6,15 +6,17 @@ import { Plus, Minus } from "lucide-react";
 import ListParking from "../../list/ListParking/ListParking";
 
 interface ParkingSectionProps {
-  parking : Parking;
+  parkingDataForm : Parking;
+  parkingList : Parking[];
   handleChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDelete: (id: number) => void;
+  resetParkingDataForm : () => void;
+  onSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function ParkingSection({ parking, handleChange }: ParkingSectionProps) {
+function ParkingSection({ parkingDataForm,parkingList,onSubmit, handleChange, onDelete, resetParkingDataForm }: ParkingSectionProps) {
 
   const [isActive, setIsActive] = useState(false);
-
-
 
 
   return (
@@ -31,15 +33,21 @@ function ParkingSection({ parking, handleChange }: ParkingSectionProps) {
         </div>
 
         <div className={styles.listBody}>
-          <ListParking></ListParking>
+          <ListParking
+            parkingList={parkingList}
+            onDelete = {onDelete}
+          ></ListParking>
         </div>
 
       </div>
 
       <section className={`${styles.addForm} ${isActive ? styles.active : ""}`}>
           <AddParkingForm
-            parking={parking}
+            onSubmit={onSubmit}
+            parkingDataForm={parkingDataForm}
             handleChange={handleChange}
+            resetParkingDataForm = { resetParkingDataForm }
+            closeForm={() => setIsActive(false) }
           ></AddParkingForm>
       </section>
     </div>

@@ -5,15 +5,18 @@ import styles from "./BookingParkingForm.module.css";
 import type { Car } from '../../../pages/DashboarPage/DashboardPage';
 
 interface BookingParkingFormProps {
-  car: Car;
+  carDataForm: Car;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit : (e: React.ChangeEvent<HTMLInputElement>) => void;
+  resetCarDataForm : () => void;
+  closeForm : () => void
 }
 
 
-function BookingParkingForm({ car, handleChange } : BookingParkingFormProps) {
+function BookingParkingForm({ carDataForm, onSubmit, handleChange, resetCarDataForm, closeForm } : BookingParkingFormProps) {
   return (
-    <div className={styles.formContainer}>
-      <form>
+    <div className={styles.formContainer} onSubmit={onSubmit}>
+      <form onSubmit={(e) => {e.preventDefault(); console.log(carDataForm)}}>
         <h1>Ajouter un véhicule</h1>
         <section>
           <InputForm
@@ -21,7 +24,7 @@ function BookingParkingForm({ car, handleChange } : BookingParkingFormProps) {
             placeholder="Nom du proprietaire"
             type="text"
             name="ownerName"
-            value={car.ownerName}
+            value={carDataForm.ownerName}
             onChange={handleChange}
           />
         </section>
@@ -32,7 +35,7 @@ function BookingParkingForm({ car, handleChange } : BookingParkingFormProps) {
             placeholder="Numero du véhicule"
             type="text"
             name="plateNumber"
-            value={car.plateNumber}
+            value={carDataForm.plateNumber}
             onChange={handleChange}
           />
         </section>
@@ -44,7 +47,12 @@ function BookingParkingForm({ car, handleChange } : BookingParkingFormProps) {
             ></ButtonForm>
           <ButtonForm 
             text={"Annuler"} 
-            color={"gray"}            
+            color={"gray"}        
+            type='button'    
+            onClick={ ()=> {
+              resetCarDataForm();
+              closeForm();
+            }}
           ></ButtonForm>
         </section>
       </form>

@@ -2,11 +2,17 @@ import { cars } from "./carsData";
 import LigneListe from "../LigneListCar/LigneList";
 import style from "./ListCar.module.css";
 
-function ListCar() {
+interface ListCarProps {
+  onDelete: (id: number) => void;
+}
+function ListCar({ onDelete }: ListCarProps) {
   return (
     <div className={style.listContainer}>
       {cars.map((c) => (
-        <LigneListe key={c.id} car={c} />
+        <LigneListe 
+          onClikDeleteBtn={()=> onDelete(c.id)}
+          key={c.id} 
+          car={c} />
       ))}
     </div>
   );

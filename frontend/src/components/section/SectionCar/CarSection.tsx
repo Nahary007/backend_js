@@ -7,13 +7,16 @@ import ListCar from "../../list/ListCar/ListCar";
 import Dropdown from "../../dropdown/Dropdown";
 
 interface CarSectionProps {
-  car: Car;
+  carDataForm: Car;
   parkingList : Parking[];
   getParkingSelected : (parking: Parking) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDelete: (id: number) => void;
+  resetCarDataForm : () => void
+  onSubmit : (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function CarSection({ car, parkingList,  handleChange, getParkingSelected }: CarSectionProps) {
+function CarSection({ carDataForm, parkingList,onSubmit, handleChange, getParkingSelected, resetCarDataForm, onDelete }: CarSectionProps) {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -32,13 +35,17 @@ function CarSection({ car, parkingList,  handleChange, getParkingSelected }: Car
         </div>
 
         <ListCar
+          onDelete={onDelete} 
         ></ListCar>
       </div>
 
       <div className={`${styles.addForm} ${isActive ? styles.active : ""}`}>
         <BookingParkingForm
-          car={car}
-          handleChange={handleChange}
+          carDataForm={carDataForm}
+          onSubmit={onSubmit}
+          handleChange={ handleChange }
+          resetCarDataForm = {resetCarDataForm}
+          closeForm={ () => setIsActive(false) }
         ></BookingParkingForm>
       </div>
     </div>

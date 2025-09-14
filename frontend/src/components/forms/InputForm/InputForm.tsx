@@ -28,6 +28,7 @@ function InputForm({ label, placeholder, type, name, value, onChange }: InputFor
           id={name}
           type={ !showMdp ? type : "text"}
           name={name}
+          min={10}
           placeholder={placeholder}
           value={value}
           onChange={onChange}

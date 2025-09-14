@@ -1,13 +1,15 @@
 import styles from "./ButtonForm.module.css"
 
-interface ButtonFormProps {
+interface ButtonFormProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     text : String;
-    color : String;
 }
 
-function ButtonForm({text, color = "gray" } : ButtonFormProps) {
+function ButtonForm({text, color, ...rest } : ButtonFormProps) {
   return (
-    <button className={`${styles.btn} ${color}`}>
+    <button
+      className={`${styles.btn} ${color}`}
+      {...rest}
+    >
         {text}
     </button>
   )
