@@ -1,5 +1,5 @@
 import type { Parking } from "../../../pages/DashboarPage/DashboardPage";
-import LigneListe from "../LigneListe/LigneListe";
+import LigneListe from "../LigneListParking/LigneListe";
 import style from "./ListParking.module.css"
 
 export const parkings: Parking[] = [

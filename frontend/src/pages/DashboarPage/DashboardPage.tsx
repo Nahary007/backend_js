@@ -4,6 +4,8 @@ import TopBarre from "../../components/barre/TopBarre/TopBarre"
 import { useEffect, useState } from "react"
 import HomeSection from "../../components/section/SectionHome/HomeSection";
 import ParkingSection from "../../components/section/SectionParking/ParkingSection";
+import CarSection from "../../components/section/SectionCar/CarSection";
+import { parkings } from "../../components/list/ListParking/ListParking";
 
 export interface Parking {
   id: number;
@@ -12,11 +14,27 @@ export interface Parking {
   capacity: number;
 }
 
+export interface Car {
+  id: number;
+  plateNumber : string;
+  ownerName: string;
+}
+
 
 function DashboardPage() {
 
   const [search, setSearch] = useState("");
   const [userName, setUserName] = useState("User");
+  const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
+
+
+  const [ car, setCar ] = useState<Car>(
+    {
+      id: 0,
+      plateNumber: '',
+      ownerName: ''
+    }
+  )
 
   const [parking, setParking] = useState<Parking>(
     {
@@ -27,6 +45,14 @@ function DashboardPage() {
     }
   )
 
+  const handleChangeCar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setCar(prev => ({
+      ...prev,
+      [name]: type === "number" ? Number(value) : value
+    }));
+  };
+
   const handleChangeParking = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
     setParking(prev => ({
@@ -35,10 +61,11 @@ function DashboardPage() {
     }));
   };
 
-
   useEffect(() => {
     console.log("Parking mis à jour :", parking);
-  }, [parking]);
+    console.log("Car mis à jour :", car);
+    console.log("selectedParking :", selectedParking);
+  }, [ parking, car, selectedParking ]);
 
   return (
     <div className={styles.dashboardPage}>
@@ -50,7 +77,7 @@ function DashboardPage() {
       </section>
 
       <div className={styles.layoutContainer}>
-
+      
         <section className={styles.topBarreContainer}>
           {/* TopBarre */}
           <TopBarre
@@ -68,10 +95,17 @@ function DashboardPage() {
             nbrBooking={0}            
           ></HomeSection> */}
 
-          <ParkingSection
+          {/* <ParkingSection
             parking={parking}
             handleChange={handleChangeParking}
-          ></ParkingSection>
+          ></ParkingSection> */}
+
+          <CarSection 
+            car={car}
+            parkingList={parkings} 
+            getParkingSelected={setSelectedParking}
+            handleChange={handleChangeCar}      
+          ></CarSection>
         </section>
 
       </div>

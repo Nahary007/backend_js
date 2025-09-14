@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./ParkingSection.module.css";
-import AddParkingForm from "../../forms/addCarForm/AddParkingForm";
+import AddParkingForm from "../../forms/addParkingForm/AddParkingForm.tsx";
 import type { Parking } from "../../../pages/DashboarPage/DashboardPage";
 import { Plus, Minus } from "lucide-react";
 import ListParking from "../../list/ListParking/ListParking";
@@ -27,7 +27,7 @@ function ParkingSection({ parking, handleChange }: ParkingSectionProps) {
         </span>
 
         <div className={ styles.listHeader }>
-          <h1>List des parkings</h1>
+          <h1>Liste des parkings</h1>
         </div>
 
         <div className={styles.listBody}>

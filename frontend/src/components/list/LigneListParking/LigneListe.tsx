@@ -1,3 +1,4 @@
+import { Edit, X } from "lucide-react";
 import type { Parking } from "../../../pages/DashboarPage/DashboardPage"
 import styles from "./LigneListe.module.css"
 
@@ -14,9 +15,9 @@ function LigneListe({ parking }: LigneListeProps) {
       <div className={styles.capacity}>
         <span>{ parking.capacity } places</span>
       </div>
-      <div className={styles.actions}>
-        <button className={styles.editBtn}>✏️</button>
-        <button className={styles.deleteBtn}>🗑️</button>
+      <div className={styles.actions} style={{display: "flex"}}>
+        <button className={styles.editBtn}>{<Edit size={24}/>}</button>
+        <button className={styles.deleteBtn}>{<X size={30}/>}</button>
       </div>
     </div>
   )

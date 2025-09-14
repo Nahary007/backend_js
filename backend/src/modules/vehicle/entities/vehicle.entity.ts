@@ -12,6 +12,6 @@ export class Vehicle {
     @Column()
     ownerName: string;
 
-    @OneToMany(() => Booking, (booking) => booking.parking)
+    @OneToMany(() => Booking, (booking) => booking.vehicle)
     bookings: Booking[];
 }

@@ -1,0 +1,8 @@
+.listContainer {
+  flex: 1;          
+  max-height: calc(100vh - 225px);   
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

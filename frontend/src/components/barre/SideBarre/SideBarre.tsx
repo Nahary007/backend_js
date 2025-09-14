@@ -1,6 +1,6 @@
 import styles from "./SideBarre.module.css";
 import logo from "../../../assets/logo.png";
-import { Home, Building2, Car, Calendar } from "lucide-react";
+import { Home, Building2, Car, Calendar, LogOut } from "lucide-react";
 function SideBarre() {
   return (
     <div className={styles.sideBarre}>
@@ -12,13 +12,11 @@ function SideBarre() {
           <li className={styles.home}><Home/>Accueil</li>
           <li className={styles.parking}><Building2/>Parking</li>
           <li className={styles.car}><Car/>Voiuture</li>
-          <li className={styles.booking}><Calendar/>Reservation</li>
         </ul>
       </div>
 
       <div className={styles.sideBarreFooter}>
-        <p>user</p>
-        <button>Logout</button>
+        <button>{<LogOut />}Logout</button>
       </div>
     </div>
   )
