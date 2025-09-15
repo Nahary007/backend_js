@@ -11,10 +11,21 @@ interface ParkingSectionProps {
   handleChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDelete: (id: number) => void;
   resetParkingDataForm : () => void;
+  selectParkingToUpdate : ( parking: Parking ) => void
   onSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function ParkingSection({ parkingDataForm,parkingList,onSubmit, handleChange, onDelete, resetParkingDataForm }: ParkingSectionProps) {
+function ParkingSection(
+  { parkingDataForm,
+    parkingList,
+    onSubmit, 
+    handleChange, 
+    selectParkingToUpdate,
+    onDelete, 
+    resetParkingDataForm
+  }: ParkingSectionProps
+) 
+{
 
   const [isActive, setIsActive] = useState(false);
 
@@ -36,6 +47,7 @@ function ParkingSection({ parkingDataForm,parkingList,onSubmit, handleChange, on
           <ListParking
             parkingList={parkingList}
             onDelete = {onDelete}
+            selectParkingToUpdate = {selectParkingToUpdate}
           ></ListParking>
         </div>
 

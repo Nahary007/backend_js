@@ -4,9 +4,10 @@ import styles from "./LigneListe.module.css"
 
 interface LigneListeProps {
   parking: Parking;
-  onClick : () => void
+  onClickDelete : () => void;
+  onClickEdit : () => void;
 }
-function LigneListe({ parking, onClick }: LigneListeProps) {
+function LigneListe({ parking, onClickEdit, onClickDelete }: LigneListeProps) {
   return (
     <div className={styles.ligne}>
       <div className={styles.info}>
@@ -17,8 +18,8 @@ function LigneListe({ parking, onClick }: LigneListeProps) {
         <span>{ parking.capacity } places</span>
       </div>
       <div className={styles.actions} style={{display: "flex"}}>
-        <button className={styles.editBtn}>{<Edit size={24}/>}</button>
-        <button className={styles.deleteBtn} onClick={onClick}>{<X size={30}/>}</button>
+        <button className={styles.editBtn} onClick={onClickEdit}>{<Edit size={24}/>}</button>
+        <button className={styles.deleteBtn} onClick={onClickDelete}>{<X size={30}/>}</button>
       </div>
     </div>
   )

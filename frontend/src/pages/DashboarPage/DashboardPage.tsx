@@ -1,12 +1,14 @@
 import styles from "./DashboardPage.module.css"
 import SideBarre from "../../components/barre/SideBarre/SideBarre"
 import TopBarre from "../../components/barre/TopBarre/TopBarre"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import HomeSection from "../../components/section/SectionHome/HomeSection";
 import ParkingSection from "../../components/section/SectionParking/ParkingSection";
 import CarSection from "../../components/section/SectionCar/CarSection";
 import { parkings } from "../../components/list/ListParking/ParkingData";
 import Confirm from "../../components/popup/Confirm/Confirm";
+import UpdateCar from "../../components/popup/UpdateForm/CarUpdateForm/UpdateCar";
+import UpdateParking from "../../components/popup/UpdateForm/ParkingUpdateForm/UpdateParking";
 
 export interface Parking {
   id: number;
@@ -28,6 +30,13 @@ function DashboardPage() {
 
   const [search, setSearch] = useState("");
   const [userName, setUserName] = useState("User");
+
+  // Pour le popup UpdateCar
+  const [showUpdateCar, setShowUpdateCar] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+
+  // Pour le popup UpdateParking
+  const [showUpdateParking, setShowUpdateParking] = useState(false);
   const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
 
   // Pour afficher le popup de confirmation de suppression
@@ -53,14 +62,37 @@ function DashboardPage() {
     }
   )
 
+  // Pour le popup pour mettre a jour les donnees de la voiture
+  const selectCarToUpdate = (car: Car) => {
+    setShowUpdateCar(true);
+    setSelectedCar(car);
+  }
+
+  // Pour le popup pour mettre a jour les donnees de la Parking
+  const selectParkingToUpdate = (parking: Parking) => {
+    setShowUpdateParking(true);
+    setSelectedParking(parking);
+  }
+
   // Action ratacher sur la section Parking
   const deleteParkingAction = (id: number) => {
     console.log("Parking avec l'id supprimer: " + id);
   }
 
+  const updateParkingAction = (updatedParking: Parking) => {
+    console.log("Parking modifiée :", updatedParking);
+    setShowUpdateParking(false);
+    setSelectedParking(null)
+  }
+
   // Action ratacher a la section Car/Booking
   const deleteCarAction = (id: number) => {
     console.log("Vehicule avec l'id supprimer: " + id);
+  }
+  const updateCarAction = (updatedCar: Car) => {
+    console.log("Car modifiée :", updatedCar);
+    setShowUpdateCar(false);
+    setSelectedCar(null)
   }
 
   //Fonction pour le Popup de confirmation
@@ -109,21 +141,22 @@ function DashboardPage() {
   }
 
   // Teste des flus de donnees
-  useEffect(() => {
-    console.log("Parking mis à jour :", parking);
-    console.log("Car mis à jour :", car);
-    console.log("selectedParking :", selectedParking);
-    // alert(activeSection);
-  }, [parking, car, selectedParking]);
+  // useEffect(() => {
+  //   console.log("Parking mis à jour :", parking);
+  //   console.log("Car mis à jour :", car);
+  //   console.log("selectedParking :", selectedParking);
+  //   console.log("selectedCar :" + selectedCar);
+  //   alert(activeSection);
+  // }, [parking, car, selectedParking, selectedCar]);
 
   return (
     <div className={styles.dashboardPage}>
 
       <section className={styles.sideBarreContainer}>
         {/* SideBarre */}
-        <SideBarre 
-          activeSection = {activeSection}
-          onSelect={(section: string) => setActiveSection(section)} 
+        <SideBarre
+          activeSection={activeSection}
+          onSelect={(section: string) => setActiveSection(section)}
         />
 
       </section>
@@ -156,6 +189,7 @@ function DashboardPage() {
               parkingList={parkings}
               resetParkingDataForm={resetParkingDataForm}
               handleChange={handleChangeParking}
+              selectParkingToUpdate={selectParkingToUpdate}
               onSubmit={(e) => {
                 e.preventDefault();
                 alert(parking.name);
@@ -177,6 +211,7 @@ function DashboardPage() {
               resetCarDataForm={resetCarDataForm}
               getParkingSelected={setSelectedParking}
               handleChange={handleChangeCar}
+              selectCarToUpdate={selectCarToUpdate}
               onSubmit={(e) => {
                 e.preventDefault();
                 alert(car.ownerName);
@@ -203,6 +238,42 @@ function DashboardPage() {
           onCancel={() => setShowConfirm(false)}
         ></Confirm>
       }
+
+      {
+        // Ouvrir la formulaire popup pour mettre a jour les donnees du voiture
+        showUpdateCar && selectedCar && (
+          <UpdateCar
+            car={selectedCar}
+            onClose={
+              () => {
+                setShowUpdateCar(false);
+                setSelectedCar(null);
+              }
+            }
+            onUpdate={
+              (updatedCar) => updateCarAction(updatedCar)
+            }
+          />
+        )
+      }
+      {
+        // Ouvrir la formulaire popup pour mettre a jour les donnees de Parking
+        showUpdateParking && selectedParking && (
+          <UpdateParking
+            parking={selectedParking}
+            onClose={
+              () => {
+                setShowUpdateParking(false);
+                setSelectedParking(null);
+              }
+            }
+            onUpdate={
+              (updatedParking) => updateParkingAction(updatedParking)
+            }
+          />
+        )
+      }
+
     </div>
   )
 }

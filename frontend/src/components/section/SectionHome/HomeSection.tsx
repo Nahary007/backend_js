@@ -56,6 +56,7 @@ function HomeSection({ nbrParking = 0, nbrCar = 0, nbrBooking = 0 }: HomeSection
                     dataHeader.map(
                         (value: DataHeader, index: number) =>
                             <BlockHeaderData
+                                key={index}
                                 title={value.title}
                                 nbr={value.nbr}
                                 icon={value.icon}

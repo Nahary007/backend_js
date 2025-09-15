@@ -14,9 +14,21 @@ interface CarSectionProps {
   onDelete: (id: number) => void;
   resetCarDataForm : () => void
   onSubmit : (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selectCarToUpdate: (car: Car) => void
 }
 
-function CarSection({ carDataForm, parkingList,onSubmit, handleChange, getParkingSelected, resetCarDataForm, onDelete }: CarSectionProps) {
+function CarSection(
+  { 
+    carDataForm, 
+    parkingList,
+    onSubmit, 
+    handleChange, 
+    getParkingSelected, 
+    resetCarDataForm, 
+    onDelete,
+    selectCarToUpdate
+  }: CarSectionProps) {
+
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -35,6 +47,7 @@ function CarSection({ carDataForm, parkingList,onSubmit, handleChange, getParkin
         </div>
 
         <ListCar
+          selectCarToUpdate={selectCarToUpdate}
           onDelete={onDelete} 
         ></ListCar>
       </div>
