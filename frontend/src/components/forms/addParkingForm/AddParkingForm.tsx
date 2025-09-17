@@ -15,7 +15,7 @@ function AddParkingForm({ parkingDataForm,onSubmit, handleChange, resetParkingDa
   return (
     <div className={styles.formContainer} onSubmit={onSubmit}>
       <form>
-        <h1>Ajouter un véhicule</h1>
+        <h1>Ajouter un parking</h1>
         <section>
           <InputForm
             label=""

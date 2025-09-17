@@ -7,7 +7,6 @@ import LoadAnimation from "../../load/LoadAnimation";
 interface HomeSectionProps {
     nbrParking: number | 0;
     nbrCar: number | 0;
-    nbrBooking: number | 0;
 }
 
 export interface DataHeader {
@@ -17,7 +16,7 @@ export interface DataHeader {
     color: string;
 }
 
-function HomeSection({ nbrParking = 0, nbrCar = 0, nbrBooking = 0 }: HomeSectionProps) {
+function HomeSection({ nbrParking = 0, nbrCar = 0 }: HomeSectionProps) {
 
     const dataHeader: DataHeader[] = [
         {
@@ -31,12 +30,6 @@ function HomeSection({ nbrParking = 0, nbrCar = 0, nbrBooking = 0 }: HomeSection
             nbr: nbrCar,
             icon: <Car size={32} color="#00a63e"/>,
             color: "#00a63e"
-        },
-        {
-            title: "Réservations",
-            nbr: nbrBooking,
-            icon: <Calendar size={32} color="#f54a00"/>,
-            color: "#f54a00"
         }
     ];
 

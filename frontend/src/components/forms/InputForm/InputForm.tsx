@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 type InputFormProps = {
   label: string;
+  errorMessage: string;
   placeholder: string;
   type: string;
   name: string;
@@ -12,28 +13,45 @@ type InputFormProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function InputForm({ label, placeholder, type, name, value, onChange }: InputFormProps) {
-
+function InputForm({ label,errorMessage, placeholder, type, name, value, onChange }: InputFormProps) {
   const [showMdp, setShowMdp] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
-    setShowMdp(b => !b);
-  }
+    setShowMdp(prev => !prev);
+  };
+
+  // définir dynamiquement le type réel
+  const inputType = type === "password" && showMdp ? "text" : type;
 
   return (
     <div className={styles.inputForm}>
       <label htmlFor={name}>{label}</label>
-      <section style={{position: "relative"}}>
+      <section style={{ position: "relative" }}>
         <input
           id={name}
-          type={ !showMdp ? type : "text"}
+          type={inputType}
           name={name}
-          min={10}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          {...(type === "number" ? { min: 10, max: 100} : {})}
         />
-        {type == "password" && <img onClick={togglePasswordVisibility} src={showMdp ? hide : show} />}
+        <p style={{
+          position: "absolute",
+          color:"var(--color-danger)",
+          fontSize: "14px",
+          bottom:"-20px",
+          right : "0",
+          fontWeight:"500"
+          }}>{errorMessage}</p>
+        {type === "password" && (
+          <img
+            onClick={togglePasswordVisibility}
+            src={showMdp ? hide : show}
+            alt={showMdp ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            style={{ cursor: "pointer" }}
+          />
+        )}
       </section>
     </div>
   );

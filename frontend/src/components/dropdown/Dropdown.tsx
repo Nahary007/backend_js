@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Parking } from "../../pages/DashboarPage/DashboardPage";
 import styles from "./Dropdown.module.css"
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -28,7 +28,6 @@ function Dropdown( { parkingList, getParkingSelected }: DropdownProps ) {
             <div style={{ padding: "36px"}}></div>
         )
     }
-
 
     return (
         <div className={styles.dropdown} onMouseLeave={() => setIsOpen(false)}>

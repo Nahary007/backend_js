@@ -1,14 +1,23 @@
-import styles from "./DashboardPage.module.css"
-import SideBarre from "../../components/barre/SideBarre/SideBarre"
-import TopBarre from "../../components/barre/TopBarre/TopBarre"
-import { useState } from "react"
+import styles from "./DashboardPage.module.css";
+import SideBarre from "../../components/barre/SideBarre/SideBarre";
+import TopBarre from "../../components/barre/TopBarre/TopBarre";
+import { useEffect, useMemo, useState } from "react";
 import HomeSection from "../../components/section/SectionHome/HomeSection";
 import ParkingSection from "../../components/section/SectionParking/ParkingSection";
 import CarSection from "../../components/section/SectionCar/CarSection";
-import { parkings } from "../../components/list/ListParking/ParkingData";
 import Confirm from "../../components/popup/Confirm/Confirm";
 import UpdateCar from "../../components/popup/UpdateForm/CarUpdateForm/UpdateCar";
 import UpdateParking from "../../components/popup/UpdateForm/ParkingUpdateForm/UpdateParking";
+import { getParkings } from "../../../api/services/parkingService";
+import { useQuery } from "@tanstack/react-query";
+import { useCreateParking } from "../../../hooks/useCreateParking";
+import { useDeleteParking } from "../../../hooks/useDeleteParking";
+import { useUpdateParking } from "../../../hooks/useUpdateParking";
+import { useCreateCar } from "../../../hooks/useCreateCar";
+import { useDeleteCar } from "../../../hooks/useDeleteCar";
+import { useUpdateCar } from "../../../hooks/useUpdateCar";
+import { data } from "react-router-dom";
+import { getCars } from "../../../api/services/carService";
 
 export interface Parking {
   id: number;
@@ -21,15 +30,41 @@ export interface Car {
   id: number;
   plateNumber: string;
   ownerName: string;
+  parkingId: number | undefined;
+  startTime: string;
+  duration: number;
 }
 
-
 function DashboardPage() {
+
+  const { data: parkingList = [], isLoading } = useQuery({
+    queryKey: ["parkingList"],
+    queryFn: getParkings,
+  });
+
+  const { data: carList = [] } = useQuery({
+    queryKey: ["carList"],
+    queryFn: getCars,
+  });
+
+  // const d = parkingList;
+  // console.log(d.filter((v: Parking) => v.id % 2 == 0));
+
   // Navigation sur les sections
   const [activeSection, setActiveSection] = useState("home");
 
   const [search, setSearch] = useState("");
-  const [userName, setUserName] = useState("User");
+  const [userName] = useState("User");
+
+  // Hooks pour Parking
+  const { mutate: createParkingMutate } = useCreateParking();
+  const { mutate: deleteParkingMutate } = useDeleteParking();
+  const { mutate: updateParkingMutate } = useUpdateParking();
+
+  // Hooks Pour Car
+  const { mutate: createCarMutate } = useCreateCar();
+  const { mutate: deleteCarMutate } = useDeleteCar();
+  const { mutate: updateCarMutate } = useUpdateCar();
 
   // Pour le popup UpdateCar
   const [showUpdateCar, setShowUpdateCar] = useState(false);
@@ -49,9 +84,13 @@ function DashboardPage() {
     {
       id: 0,
       plateNumber: '',
-      ownerName: ''
+      ownerName: '',
+      parkingId: 0,
+      startTime: new Date().toISOString(),
+      duration: 10,
     }
-  )
+  );
+
 
   const [parking, setParking] = useState<Parking>(
     {
@@ -61,6 +100,7 @@ function DashboardPage() {
       capacity: 10
     }
   )
+
 
   // Pour le popup pour mettre a jour les donnees de la voiture
   const selectCarToUpdate = (car: Car) => {
@@ -75,25 +115,73 @@ function DashboardPage() {
   }
 
   // Action ratacher sur la section Parking
+  const createParkingAction = (e: React.FormEvent) => {
+    e.preventDefault();
+    createParkingMutate({
+      name: parking.name,
+      location: parking.location,
+      capacity: parking.capacity,
+    });
+    resetParkingDataForm();
+  };
+
   const deleteParkingAction = (id: number) => {
     console.log("Parking avec l'id supprimer: " + id);
+    deleteParkingMutate(id);
   }
 
   const updateParkingAction = (updatedParking: Parking) => {
-    console.log("Parking modifiée :", updatedParking);
+    if (updatedParking !== selectedParking) {
+      console.log("Parking modifiée :", updatedParking);
+      updateParkingMutate({ id: updatedParking.id, dto: updatedParking });
+    }
     setShowUpdateParking(false);
-    setSelectedParking(null)
+    setSelectedParking(null);
   }
 
   // Action ratacher a la section Car/Booking
+  const createBookingAction = (e: React.FormEvent) => {
+    e.preventDefault();
+    createCarMutate(
+      {
+        plateNumber: car.plateNumber,
+        ownerName: car.ownerName,
+        parkingId: selectedParking?.id ?? 0,
+        startTime: car.startTime,
+        duration: car.duration
+      });
+    resetCarDataForm();
+  }
+
   const deleteCarAction = (id: number) => {
     console.log("Vehicule avec l'id supprimer: " + id);
+    deleteCarMutate(id);
   }
+
   const updateCarAction = (updatedCar: Car) => {
     console.log("Car modifiée :", updatedCar);
+    console.log("Parking :", selectedParking);
+    updateCarMutate({ id: updatedCar.id, dto: updatedCar })
+
     setShowUpdateCar(false);
     setSelectedCar(null)
   }
+
+  const filteredParking = useMemo(() => {
+    if (activeSection !== "parking") {
+      return parkingList
+    }
+
+    if (!search) return parkingList;
+
+    return parkingList.filter((p: Parking) =>
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.id.toString() === search
+    );
+  }, [activeSection, search, parkingList]);
+
+
+
 
   //Fonction pour le Popup de confirmation
   const askConfirm = (message: string, action: () => void) => {
@@ -111,12 +199,16 @@ function DashboardPage() {
     }));
   };
 
+
   const resetCarDataForm = () => {
     setCar(
       {
         id: 0,
         plateNumber: '',
-        ownerName: ''
+        ownerName: '',
+        parkingId: 0,
+        startTime: new Date().toISOString(),
+        duration: 10,
       }
     );
   }
@@ -139,6 +231,8 @@ function DashboardPage() {
       }
     );
   }
+
+  useEffect(() => { console.log(selectedParking?.id) }, [selectedParking]);
 
   // Teste des flus de donnees
   // useEffect(() => {
@@ -177,24 +271,20 @@ function DashboardPage() {
         <section className={styles.elementContainer}>
           {activeSection === "home" && (
             <HomeSection
-              nbrParking={0}
-              nbrCar={0}
-              nbrBooking={0}
+              nbrParking={parkingList.length}
+              nbrCar={carList.length}
             />
           )}
 
           {activeSection === "parking" && (
             <ParkingSection
+              isLoading = {isLoading}
               parkingDataForm={parking}
-              parkingList={parkings}
+              parkingList={filteredParking}
               resetParkingDataForm={resetParkingDataForm}
               handleChange={handleChangeParking}
               selectParkingToUpdate={selectParkingToUpdate}
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert(parking.name);
-                resetParkingDataForm();
-              }}
+              onSubmit={createParkingAction}
               onDelete={(id) =>
                 askConfirm(
                   "Voulez-vous vraiment supprimer ce parking ?",
@@ -202,21 +292,20 @@ function DashboardPage() {
                 )
               }
             />
-          )}
+          )
+          }
 
-          {activeSection === "car" && (
+          {parkingList.length !== 0 && activeSection === "car" && (
             <CarSection
+              search = {search}
               carDataForm={car}
-              parkingList={parkings}
+              selectedParking={selectedParking}
+              parkingList={parkingList}
               resetCarDataForm={resetCarDataForm}
               getParkingSelected={setSelectedParking}
               handleChange={handleChangeCar}
               selectCarToUpdate={selectCarToUpdate}
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert(car.ownerName);
-                resetCarDataForm();
-              }}
+              onSubmit={createBookingAction}
               onDelete={(id) =>
                 askConfirm(
                   "Voulez-vous vraiment supprimer cette voiture ?",
@@ -279,3 +368,4 @@ function DashboardPage() {
 }
 
 export default DashboardPage
+

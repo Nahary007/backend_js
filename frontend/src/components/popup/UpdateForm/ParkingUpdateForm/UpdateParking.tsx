@@ -33,6 +33,7 @@ function UpdateParking({ parking, onClose, onUpdate }: UpdateParkingProps) {
         <h2>Modifier Parking</h2>
         <form onSubmit={handleSubmit}>
           <InputForm
+            errorMessage=''
             label=""
             placeholder="Ex: Parking Central"
             type="text"
@@ -42,6 +43,7 @@ function UpdateParking({ parking, onClose, onUpdate }: UpdateParkingProps) {
           />
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder="Ex: Antananarivo"
             type="text"
@@ -51,6 +53,7 @@ function UpdateParking({ parking, onClose, onUpdate }: UpdateParkingProps) {
           />
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder="Ex: 50"
             type="number"

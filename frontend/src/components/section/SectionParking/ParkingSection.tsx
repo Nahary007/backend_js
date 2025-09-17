@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import styles from "./ParkingSection.module.css";
 import AddParkingForm from "../../forms/addParkingForm/AddParkingForm.tsx";
 import type { Parking } from "../../../pages/DashboarPage/DashboardPage";
@@ -6,6 +6,7 @@ import { Plus, Minus } from "lucide-react";
 import ListParking from "../../list/ListParking/ListParking";
 
 interface ParkingSectionProps {
+  isLoading: boolean;
   parkingDataForm : Parking;
   parkingList : Parking[];
   handleChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +18,7 @@ interface ParkingSectionProps {
 
 function ParkingSection(
   { parkingDataForm,
+    isLoading,
     parkingList,
     onSubmit, 
     handleChange, 
@@ -45,6 +47,7 @@ function ParkingSection(
 
         <div className={styles.listBody}>
           <ListParking
+            isLoading = {isLoading}
             parkingList={parkingList}
             onDelete = {onDelete}
             selectParkingToUpdate = {selectParkingToUpdate}

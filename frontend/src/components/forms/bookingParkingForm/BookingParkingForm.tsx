@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonForm from '../Button/ButtonForm';
 import InputForm from '../InputForm/InputForm';
 import styles from "./BookingParkingForm.module.css";
@@ -14,12 +14,14 @@ interface BookingParkingFormProps {
 
 
 function BookingParkingForm({ carDataForm, onSubmit, handleChange, resetCarDataForm, closeForm } : BookingParkingFormProps) {
+
   return (
     <div className={styles.formContainer} onSubmit={onSubmit}>
       <form onSubmit={(e) => {e.preventDefault(); console.log(carDataForm)}}>
         <h1>Ajouter un véhicule</h1>
         <section>
           <InputForm
+            errorMessage=''
             label=""
             placeholder="Nom du proprietaire"
             type="text"
@@ -31,11 +33,24 @@ function BookingParkingForm({ carDataForm, onSubmit, handleChange, resetCarDataF
 
         <section>
           <InputForm
+            errorMessage=''
             label=""
             placeholder="Numero du véhicule"
             type="text"
             name="plateNumber"
             value={carDataForm.plateNumber}
+            onChange={handleChange}
+          />
+        </section>        
+        
+        <section>
+          <InputForm
+            errorMessage=''
+            label=""
+            placeholder="Duree de stationnement"
+            type="number"
+            name="duration"
+            value={carDataForm.duration}
             onChange={handleChange}
           />
         </section>

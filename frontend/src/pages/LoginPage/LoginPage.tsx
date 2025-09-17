@@ -25,6 +25,7 @@ function LoginPage() {
         <section>
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder={"Votre email ou nom"}
             type="email"
@@ -34,6 +35,7 @@ function LoginPage() {
           />
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder={"Votre mot de passe"}
             type="password"

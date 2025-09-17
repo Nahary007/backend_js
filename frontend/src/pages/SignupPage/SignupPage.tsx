@@ -28,6 +28,7 @@ function SignupPage() {
         <section>
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder={"Votre nom"}
             type="text"
@@ -37,6 +38,7 @@ function SignupPage() {
           />
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder={"Exemple@gmail.com"}
             type="email"
@@ -47,6 +49,7 @@ function SignupPage() {
 
           <InputForm
             label=""
+            errorMessage=''
             placeholder={"Votre mot de passe"}
             type="password"
             name="password"
@@ -55,6 +58,7 @@ function SignupPage() {
           />
 
           <InputForm
+            errorMessage=''
             label=""
             placeholder={"Confirmez votre mot de passe"}
             type="password"
