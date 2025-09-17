@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Booking } from "src/modules/booking/entities/booking.entity";
+import { Vehicle } from "../../vehicle/entities/vehicle.entity";
 
 @Entity()
 export class Parking {
@@ -15,7 +15,6 @@ export class Parking {
     @Column()
     capacity: number;
 
-    @OneToMany(() => Booking, (booking) => booking.parking)
-    bookings: Booking[];
+    @OneToMany(() => Vehicle, (vehicle) => vehicle.parking)
+    vehicles: Vehicle[];
 }
-

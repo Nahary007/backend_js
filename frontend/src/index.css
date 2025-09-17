@@ -1,0 +1,22 @@
+:root {
+  --color-primary: #2563EB; /* bleu pro */
+  --color-secondary: #10B981; /* vert validation */
+  --color-background: #F9FAFB; /* gris clair */
+  --color-gray      : rgb(221, 221, 221);
+  --color-surface: #FFFFFF; /* cartes, sections */
+  --color-text: #111827; /* presque noir */
+  --color-danger: #EF4444; /* suppression */
+  --color-warning: #F59E0B; /* alerte */
+  --bg-sidebar: #1F2937;
+  --bg-principal: #1F2937;
+}
+
+.primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.gray {
+  background: var(--color-gray);
+  color: var(--color-text);
+}
