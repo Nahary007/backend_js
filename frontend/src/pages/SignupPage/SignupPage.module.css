@@ -1,0 +1,39 @@
+.signupForm {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f1f1f1;
+}
+
+.signupForm h1 {
+    font-size: 2.6rem;
+    padding-bottom: 14px;
+    text-align: center;
+}
+
+.signupForm form {
+    background: var(--bg-sidebar);
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 70px 30px 70px 30px;
+    gap: 20px;
+    border-radius: 8px;
+}
+
+.signupForm section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.goToLogin {
+    text-align: center;
+}
+
+.goToLogin span {
+    text-decoration: underline;
+    cursor: pointer;
+}

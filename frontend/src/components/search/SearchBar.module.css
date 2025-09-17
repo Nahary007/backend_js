@@ -1,0 +1,29 @@
+.searchBar {
+    position: relative;
+    height: 40px;
+    width: fit-content;
+}
+
+.i {
+    position: absolute;
+    transform: translateY(-50%);
+    left: 12px;
+    color: var(--bg-sidebar);
+    /* background: #000; */
+    top: 50%;
+}
+
+
+.searchBar input {
+    height: 100%;
+    width: 360px;
+    padding: 0 14px 0 46px;
+    border-radius: 12px;
+    border: 1px solid rgb(169, 169, 169);
+}
+
+.searchBar input:focus {
+    border: 1px solid transparent;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}

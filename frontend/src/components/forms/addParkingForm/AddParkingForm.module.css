@@ -1,0 +1,20 @@
+.formContainer {
+    white-space:inherit;
+    padding: 20px;
+}
+
+.formContainer form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formContainer .listBtn {
+    display: flex;
+    gap: 20px;
+}
+
+.formContainer button {
+    flex: 1;
+    padding: 12px;
+}
