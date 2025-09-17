@@ -8,10 +8,11 @@ import { plainToInstance } from "class-transformer";
 import { Parking } from "src/modules/parking/entities/parking.entity";
 import { UpdateVehicleDto } from "../dto/update-vehicle.dto";
 
-
 @Injectable()
 export class VehicleService {
     constructor(
+        @InjectRepository(Vehicle)
+        private repo: Repository<Vehicle>,
 
         @InjectRepository(Parking)
         private parkingRepo: Repository<Parking>,
